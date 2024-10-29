@@ -4,12 +4,18 @@ import 'package:hawdaj/routing/routes_keys.dart';
 import 'package:hawdaj/routing/runtime_variables.dart';
 
 List<RouteBase> appRoutes = [
-  //kFilterView
+  GoRoute(
+    parentNavigatorKey: navigatorKey,
+    path: RoutesKeys.kSplash,
+    builder: (context, state) {
+      return const Home();
+    },
+  ),
   GoRoute(
     parentNavigatorKey: navigatorKey,
     path: RoutesKeys.kWelcome,
     builder: (context, state) {
-      return Home();
+      return const Home();
     },
   ),
 ];

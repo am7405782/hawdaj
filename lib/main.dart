@@ -3,16 +3,12 @@ import 'dart:io';
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hawdaj/Localization/language_localization.dart';
 import 'package:hawdaj/Localization/localization_constant.dart';
 import 'package:hawdaj/constants/preference_utility.dart';
 import 'package:hawdaj/core/service_locator.dart';
 import 'package:hawdaj/routing/app_router.dart';
 import 'package:oktoast/oktoast.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
