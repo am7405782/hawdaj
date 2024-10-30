@@ -12,6 +12,8 @@ String getTranslated(BuildContext context, String key) {
 
 const String english = "en";
 const String arabic = "ar";
+const String russian = "ru";
+const String chinese = "zh";
 
 Future<Locale> setLocale(String languageCode) async {
   SharedPreferenceUtil.putString(PrefKey.currentLanguageCode, languageCode);
@@ -19,18 +21,18 @@ Future<Locale> setLocale(String languageCode) async {
 }
 
 Locale _locale(String languageCode) {
-  Locale temp;
   switch (languageCode) {
     case english:
-      temp = Locale(languageCode, 'US');
-      break;
+      return Locale(languageCode, 'US');
     case arabic:
-      temp = Locale(languageCode, 'AE');
-      break;
+      return Locale(languageCode, 'AE');
+    case russian:
+      return Locale(languageCode, 'RU');
+    case chinese:
+      return Locale(languageCode, 'CN');
     default:
-      temp = const Locale(english, 'US');
+      return const Locale(english, 'US');
   }
-  return temp;
 }
 
 Future<Locale> getLocale() async {

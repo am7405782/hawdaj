@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hawdaj/Localization/language_localization.dart';
 import 'package:hawdaj/Localization/localization_constant.dart';
 import 'package:hawdaj/constants/preference_utility.dart';
 import 'package:hawdaj/core/service_locator.dart';
@@ -40,7 +42,6 @@ class MyApp extends StatefulWidget {
     state.setLocale(newLocale);
   }
 
-  // ignore: library_private_types_in_public_api
   static _MyAppState? of(BuildContext context) =>
       context.findAncestorStateOfType<_MyAppState>();
 }
@@ -56,17 +57,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() {
-    getLocale().then((local) => {
-          setState(() {
-            _locale = local;
-          })
-        });
+    getLocale().then((local) {
+      setState(() {
+        _locale = local;
+      });
+    });
     super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -77,48 +73,52 @@ class _MyAppState extends State<MyApp> {
       );
     }
     return ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        builder: (_, child) {
-          return GestureDetector(
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-                FocusManager.instance.primaryFocus?.unfocus();
-              }
-            },
-            child: OKToast(child: Builder(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      builder: (_, child) {
+        return GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: OKToast(
+            child: Builder(
               builder: (context) {
                 return MaterialApp.router(
                   routerConfig: AppRouter.router,
                   title: 'Quick Wash',
                   debugShowCheckedModeBanner: false,
                   // theme: CustomTheme.lightTheme,
-                  //  locale: _locale,
-                  // supportedLocales: const [
-                  //   Locale(english, 'US'),
-                  //   Locale(arabic, 'AE'),
-                  // ],
-                  // localizationsDelegates: const [
-                  //   LanguageLocalization.delegate,
-                  //   GlobalMaterialLocalizations.delegate,
-                  //   GlobalWidgetsLocalizations.delegate,
-                  //   GlobalCupertinoLocalizations.delegate,
-                  // ],
-                  localeResolutionCallback: (deviceLocal, supportedLocales) {
-                    for (var local in supportedLocales) {
-                      if (local.languageCode == deviceLocal!.languageCode &&
-                          local.countryCode == deviceLocal.countryCode) {
-                        return deviceLocal;
+                  locale: _locale,
+                  supportedLocales: const [
+                    Locale('en', 'US'),
+                    Locale('ar', 'AE'),
+                    Locale('ru', 'RU'), // Russian
+                    Locale('zh', 'CN'),
+                  ],
+                  localizationsDelegates: const [
+                    LanguageLocalization.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  localeResolutionCallback: (deviceLocale, supportedLocales) {
+                    for (var locale in supportedLocales) {
+                      if (locale.languageCode == deviceLocale?.languageCode &&
+                          locale.countryCode == deviceLocale?.countryCode) {
+                        return deviceLocale;
                       }
                     }
                     return supportedLocales.first;
                   },
                 );
               },
-            )),
-          );
-        });
+            ),
+          ),
+        );
+      },
+    );
   }
 }

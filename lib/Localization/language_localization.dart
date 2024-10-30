@@ -38,7 +38,7 @@ class _LanguageLocalizationDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return [english, arabic].contains(locale.languageCode);
+    return [english, arabic, russian, chinese].contains(locale.languageCode);
   }
 
   @override
